@@ -35,7 +35,7 @@
     Response: 200 OK if the todo item was found and deleted, or 404 Not Found if not found.
     Example: DELETE http://localhost:3000/todos/123
 
-    - For any other route not defined in the server return 404
+    - ##### For any other route not defined in the server return 404
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
@@ -46,4 +46,56 @@
   
   app.use(bodyParser.json());
   
+  let todos = []
+
+  app.get('/todos', (req, res)=>{
+    res.json(todos);
+  })
+
+  app.get('/todos/:id', (req, res)=>{
+    const findId = parseInt(req.params.id)
+    const todoFound = todos.filter((values)=>{return values.id == findId})
+    if(todoFound.length == 0) {
+      res.status(404).send()
+    } else {
+      res.status(200).json(todoFound[0])
+    }
+  })
+
+  app.post('/todos', (req, res)=>{
+    const idGenerate = Math.floor(Math.random() * 30000);
+    const newItem = req.body
+    newItem.id = idGenerate
+    todos.push(newItem)
+    res.status(201).json(newItem)
+  })
+
+  app.put('/todos/:id', (req, res)=>{
+    const findId = parseInt(req.params.id)
+    const findTot = todos.filter((values)=>{return values.id === findId})
+    if(findTot.length == 0) {
+      res.status(404).send()
+    } else {
+      let indx = todos.indexOf(findTot[0])
+      todos[indx].title = req.body.title
+      todos[indx].description = req.body.description
+      res.status(200).send()
+    }
+  })
+
+  app.delete('/todos/:id', (req, res)=>{
+    const findId = parseInt(req.params.id)
+    const findTot = todos.filter((values)=>{return (values.id == findId)})
+    if(findTot.length == 0) {
+      res.status(404).send()
+    } else {
+      todos = todos.filter((values)=>{return (values != findTot[0])})
+      res.status(200).send()
+    }
+  }) 
+
+  app.all('*', (req, res)=>{
+    res.status(404).send()
+  })
+
   module.exports = app;
