@@ -11,8 +11,8 @@ function isOldEnoughMiddleware(req, res, next) {
     }    
 }
 
-app.use(isOldEnoughMiddleware);
 app.use(express.json());
+app.use(isOldEnoughMiddleware);
 
 app.get('/ride1', (req, res)=>{
     res.json({
