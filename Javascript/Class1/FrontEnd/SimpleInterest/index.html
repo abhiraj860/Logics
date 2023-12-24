@@ -1,0 +1,26 @@
+<script>
+    async function calculateInterest() {
+        const a = document.getElementById('principal').value;
+        const b = document.getElementById('rate').value;
+        const c = document.getElementById('time').value;
+        const url = "http://localhost:3000/interest?principal=" + a + "&rate=" + b + "&time=" + c;   
+        const resp = await fetch(url);
+        const response = await resp.json();
+        if(resp.status === 200) {
+            document.getElementById('interest').innerHTML = "Interest: " + response["interest"];
+            document.getElementById('total').innerHTML = "Total amount: " + response["finalAmount"];
+        } else {
+            document.getElementById('interest').innerHTML = response["msg"];
+            document.getElementById('total').innerHTML = "";
+        }
+        
+    }
+</script>
+<body>
+    <input id="principal" type="text" placeholder="Enter principal"> <br><br>
+    <input id="rate" type="text" placeholder="Enter rate"> <br><br>
+    <input id="time" type="text" placeholder="Enter time"> <br><br>
+    <button onclick="calculateInterest()">Calculate</button> <br>
+    <div id="interest"></div> 
+    <div id="total"></div>
+</body>

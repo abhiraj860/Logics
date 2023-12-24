@@ -1,0 +1,28 @@
+<html>
+    <script>
+        // Debounce Logic
+        let timeOut;
+        function debouncePopulateDiv() {
+            // Delay the call to populateDiv until I've not been called for 100ms
+            // and I've been called atleast once.
+            clearTimeout(timeOut);
+            timeOut = setTimeout(()=>{
+                populateDiv();
+            }, 1000);
+        }
+
+        async function populateDiv() {
+            const a = document.getElementById("firstNumber").value;
+            const b = document.getElementById("secondNumber").value;
+            const resp = await fetch("http://localhost:3000/sum?a="+a + "&b=" + b);
+            const finalText = await resp.text();
+            document.getElementById("finalSum").innerHTML = finalText;
+        } 
+    </script>
+    <body>
+        <input oninput="debouncePopulateDiv()" id="firstNumber" type="text" placeholder="First Number"><br><br>
+        <input oninput="debouncePopulateDiv()" id="secondNumber" type="text" placeholder="Second Number"><br><br>
+        <!-- <button onClick="populateDiv()">Calculate Sum</button> <br><br> -->
+        <div id="finalSum"></div>
+    </body>
+</html>
