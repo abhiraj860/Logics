@@ -10,5 +10,9 @@
 			"path": "../../capstone-projects"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"C_Cpp.autocompleteAddParentheses": false,
+		"C_Cpp.autocomplete": "disabled",
+		"debug.javascript.autoAttachFilter": "disabled"
+	}
 }

@@ -16,12 +16,12 @@ app.post('/signup', async (req, res)=>{
   if(existingUser) {
     return res.status(400).send("User already exists.");
   }
-  
   const user = new User({
     name: userName, 
     email: mail, 
     password: password
   });
+
   user.save();      
   res.json({
     msg: "User created successfully"
